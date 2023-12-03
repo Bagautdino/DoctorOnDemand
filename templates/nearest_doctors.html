@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ближайшие Врачи</title>
+    <style>
+        /* Стили аналогичны предыдущим шаблонам */
+    </style>
+</head>
+<body>
+    <h2>Ближайшие Врачи</h2>
+    {% for doctor_with_distance in doctors %}
+        <div>
+            <h3>{{ doctor_with_distance.doctor.name }}</h3>
+            <p>Специализация: {{ doctor_with_distance.doctor.specialization }}</p>
+            <p>Расстояние: {{ doctor_with_distance.distance }} км</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

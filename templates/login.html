@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { margin: auto; width: 300px; padding: 1em; border: 1px solid #ccc; }
+        input { margin-bottom: 1em; width: 100%; }
+        input[type="submit"] { background: blue; color: white; padding: 0.7em; }
+    </style>
+</head>
+<body>
+    <form action="/login" method="post">
+        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="submit" value="Войти">
+    </form>
+</body>
+</html>

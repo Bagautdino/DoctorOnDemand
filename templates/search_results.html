@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Результаты поиска</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { margin: auto; width: 300px; padding: 1em; border: 1px solid #ccc; }
+        input { margin-bottom: 1em; width: 100%; }
+        input[type="submit"] { background: blue; color: white; padding: 0.7em; }
+    </style>
+</head>
+<body>
+    {% for doctor in doctors %}
+        <div>
+            <h3>{{ doctor.name }}</h3>
+            <p>Специализация: {{ doctor.specialization }}</p>
+            <button onclick="showLocation({{ doctor.lat }}, {{ doctor.lng }})">Показать на карте</button>
+        </div>
+    {% endfor %}
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        function showLocation(lat, lng) {
+            var location = {lat: lat, lng: lng};
+            map.setView(location, 15);
+            L.marker(location).addTo(map);
+        }
+    </script>
+</body>
+</html>
