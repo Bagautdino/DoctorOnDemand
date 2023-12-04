@@ -1,16 +1,83 @@
-<!-- templates/call_doctor.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Вызов Врача на Дом</title>
-    <!-- Стили -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        input[type=datetime-local], input[type=submit] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type=submit] {
+            cursor: pointer;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+        }
+
+        input[type=submit]:hover {
+            background-color: #4cae4c;
+        }
+
+        .success-message {
+            display: none;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h2>Вызов Врача на Дом - {{ doctor.name }}</h2>
-    <form action="{{ url_for('call_doctor', doctor_id=doctor.id) }}" method="post">
+    <form id="appointmentForm" action="{{ url_for('call_doctor', doctor_id=doctor.id) }}" method="post">
         <p>Выберите удобную дату и время для визита врача:</p>
-        <input type="datetime-local" name="date" required>
+        <input type="datetime-local" name="date" id="dateInput" min="" max="" required>
         <input type="submit" value="Вызвать врача">
     </form>
+
+    <div class="success-message" id="successMessage">
+        Вы успешно записались!
+    </div>
+
+    <script>
+        var today = new Date();
+        var nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+
+        var formatDate = function(date) {
+            var day = ('0' + date.getDate()).slice(-2);
+            var month = ('0' + (date.getMonth() + 1)).slice(-2);
+            var year = date.getFullYear();
+            var hours = ('0' + date.getHours()).slice(-2);
+            var minutes = ('0' + date.getMinutes()).slice(-2);
+            return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+        };
+
+        document.getElementById('dateInput').min = formatDate(today);
+        document.getElementById('dateInput').max = formatDate(nextWeek);
+
+        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            document.getElementById('successMessage').style.display = 'block';
+
+            setTimeout(function() {
+                window.location.href = '/search';
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
