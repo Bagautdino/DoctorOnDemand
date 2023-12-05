@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный Кабинет Врача</title>
+</head>
+<body>
+    <a href="{{ url_for('edit_doctor_profile', doctor_id=current_user.id) }}">Редактировать Профиль</a>
+    <h2>Личный Кабинет Врача</h2>
+    <table>
+        <tr>
+            <th>Номер Заявки</th>
+            <th>Имя Пациента</th>
+            <th>Дата</th>
+            <th>Статус</th>
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.appointment_id }}</td>
+            <td>{{ appointment.patient_name }}</td>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('logout') }}">Выйти</a>
+</body>
+</html>

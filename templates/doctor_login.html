@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход для Врача</title>
+</head>
+<body>
+    <h2>Вход для Врача</h2>
+    <form method="post">
+        <label for="username">Имя пользователя:</label>
+        <input type="text" name="username" id="username" required>
+        <br>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <input type="submit" value="Войти">
+    </form>
+    <a href="{{ url_for('index') }}">На г
