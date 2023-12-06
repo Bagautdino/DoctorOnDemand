@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход для Врача</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: #fff;
+        }
+        form {
+            width: 100%;
+            margin-top: 20px;
+        }
+        label, input {
+            width: calc(100% - 16px);
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .button-link {
+            padding: 10px 15px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            width: calc(100% - 32px); /* Account for padding and border */
+        }
+        .button-link:hover {
+            background-color: #217a34;
+        }
+        .nav-links {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Вход для Врача</h2>
+        <form method="post">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" name="username" id="username" required>
+            
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" id="password" required>
+            
+            <input type="submit" value="Войти">
+        </form>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="button-link">На главную</a>
+            <a href="{{ url_for('doctor_register') }}" class="button-link">Регистрация для Врача</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактирование Профиля Врача</title>
+    <!-- Подключаем стили Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        #map { 
+            height: 400px; 
+            margin-bottom: 20px;
+        }
+        form {
+            background: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333333;
+        }
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #004494;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Редактирование Профиля Врача</h2>
+<form method="post">
+    <label for="name">Имя:</label>
+    <input type="text" name="name" id="name" value="{{ doctor.name }}" required>
+
+    <label for="specialization">Специализация:</label>
+    <input type="text" name="specialization" id="specialization" value="{{ doctor.specialization }}" required>
+
+    <label for="about">О себе:</label>
+    <textarea name="about" id="about">{{ doctor.about }}</textarea>
+
+    <label for="location">Местоположение:</label>
+    <input type="text" name="location" id="location" value="{{ doctor.location }}" required>
+
+    <!-- Карта Leaflet для выбора координат -->
+    <div id="map"></div>
+    <input type="hidden" name="lat" id="lat" value="{{ doctor.lat }}">
+    <input type="hidden" name="lng" id="lng" value="{{ doctor.lng }}">
+
+    <label for="available">Доступен:</label>
+    <input type="checkbox" name="available" id="available" {{ 'checked' if doctor.available else '' }}>
+
+    <input type="submit" value="Сохранить изменения">
+</form>
+<a href="{{ url_for('doctor_dashboard') }}">Назад</a>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<script>
+   window.onload = function() {
+    var defaultLat = {{ doctor.lat or '51.505' }};
+    var defaultLng = {{ doctor.lng or '-0.09' }};
+
+    var map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker = L.marker([defaultLat, defaultLng], {
+        draggable: true
+    }).addTo(map);
+
+    marker.on('dragend', function(e) {
+        var latlng = marker.getLatLng();
+        document.getElementById('lat').value = latlng.lat;
+        document.getElementById('lng').value = latlng.lng;
+    });
+
+    map.on('click', function(e) {
+        marker.setLatLng(e.latlng);
+        document.getElementById('lat').value = e.latlng.lat;
+        document.getElementById('lng').value = e.latlng.lng;
+    });
+};
+</script>
+</body>
+</html>

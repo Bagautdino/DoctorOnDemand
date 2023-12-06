@@ -1,19 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Регистрация</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        form { margin: auto; width: 300px; padding: 1em; border: 1px solid #ccc; }
-        input { margin-bottom: 1em; width: 100%; }
-        input[type="submit"] { background: blue; color: white; padding: 0.7em; }
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form { 
+            width: 300px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            background: #fff;
+            text-align: center;
+        }
+        input[type="text"],
+        input[type="password"] { 
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="submit"] { 
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff; 
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <form action="/register" method="post">
-        <input type="text" name="username" placeholder="Имя пользователя" required>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <input type="submit" value="Регистрация">
+        <h2>Регистрация</h2>
+        <input type="text" name="full_name" placeholder="Полное имя" required>
+    <input type="text" name="username" placeholder="Имя пользователя" required>
+    <input type="password" name="password" placeholder="Пароль" required>
+    <input type="submit" value="Регистрация">
     </form>
 </body>
 </html>

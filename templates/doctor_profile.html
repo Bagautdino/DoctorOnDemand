@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Профиль Врача</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        #map { height: 400px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #007bff;
+        }
+        #map {
+            height: 300px; /* Уменьшаем высоту карты */
+            width: 100%; /* Задаем ширину, чтобы карта была на всю ширину контейнера */
+            margin-top: 20px;
+            border-radius: 8px; /* Закругляем углы карты */
+        }
+        .profile-info {
+            background: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -13,6 +36,7 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .button:hover {
             background-color: #0056b3;
@@ -21,13 +45,14 @@
     </style>
 </head>
 <body>
-    <h2>{{ doctor.name }}</h2>
-    <p>Специализация: {{ doctor.specialization }}</p>
-    <p>О враче: {{ doctor.about }}</p>
+    <div class="profile-info">
+        <h2>{{ doctor.name }}</h2>
+        <p>Специализация: {{ doctor.specialization }}</p>
+        <p>О враче: {{ doctor.about }}</p>
+    </div>
 
-    <!-- Кнопка для вызова врача на дом -->
+    <!-- Кнопки действий -->
     <a href="{{ url_for('call_doctor', doctor_id=doctor.id) }}" class="button">Вызвать Врача на Дом</a>
-    <!-- Кнопка для возврата к поиску врачей -->
     <a href="{{ url_for('search') }}" class="button">Назад к Поиску</a>
 
     <!-- Место для карты -->

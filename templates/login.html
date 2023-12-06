@@ -1,19 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Вход</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        form { margin: auto; width: 300px; padding: 1em; border: 1px solid #ccc; }
-        input { margin-bottom: 1em; width: 100%; }
-        input[type="submit"] { background: blue; color: white; padding: 0.7em; }
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            width: 300px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        form { 
+            margin-bottom: 1em;
+        }
+        input[type="text"],
+        input[type="password"], 
+        .button { 
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: white;
+        }
+        input[type="submit"], 
+        .register-btn { 
+            background: #007bff; 
+            border: none;
+            cursor: pointer;
+            display: block;
+        }
+        .register-btn { 
+            background: #28a745;
+            text-decoration: none;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-    <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Имя пользователя" required>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <input type="submit" value="Войти">
-    </form>
+    <div class="login-container">
+        <h2>Вход</h2>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Имя пользователя" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <input type="submit" class="button" value="Войти">
+        </form>
+        <a href="/register" class="button register-btn">Регистрация</a>
+    </div>
 </body>
 </html>
