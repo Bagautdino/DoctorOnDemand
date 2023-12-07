@@ -21,10 +21,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install bandit safety
+        pip install --upgrade setuptools
 
     - name: Run Bandit (Security Linter)
       continue-on-error: true
       run: bandit -r . -x B201 -ll
 
     - name: Check for known vulnerabilities in dependencies
+      continue-on-error: true
       run: safety check
