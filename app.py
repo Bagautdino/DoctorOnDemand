@@ -36,6 +36,7 @@ class User(UserMixin, db.Model):
     call_type = db.Column(db.String(50))
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
+    phone_number = db.Column(db.String(15))
 
 # Модель доктора
 class Doctor(UserMixin, db.Model):
@@ -81,27 +82,51 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
+
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('search'))
         else:
-            return 'Неверное имя пользователя или пароль'
-    return render_template('login.html')
+            error = 'Неверное имя пользователя или пароль'
+
+    return render_template('login.html', error=error)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    error = None
     if request.method == 'POST':
-        hashed_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
-        full_name = request.form.get('full_name')  # Получение полного имени пользователя
-        new_user = User(username=request.form['username'], password=hashed_password, full_name=full_name)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
-    return render_template('register.html')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        phone_number = request.form.get('phone_number')
+        full_name = request.form.get('full_name')
+
+        if not all([username, password, phone_number, full_name]):
+            error = 'Все поля должны быть заполнены'
+        elif len(password) < 6:
+            error = 'Пароль должен содержать не менее 6 символов'
+        elif User.query.filter_by(username=username).first():
+            error = 'Пользователь с таким именем уже существует'
+        else:
+            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+            new_user = User(username=username, password=hashed_password, full_name=full_name, phone_number=phone_number)
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                return redirect(url_for('login'))
+            except Exception as e:
+                logger.error(f"Ошибка при регистрации: {e}")
+                error = 'Ошибка при регистрации. Пожалуйста, попробуйте снова.'
+
+    return render_template('register.html', error=error)
+
+
+
 
 @app.route('/doctor_register', methods=['GET', 'POST'])
 def doctor_register():
@@ -153,7 +178,7 @@ def search():
     max_distance_str = request.args.get('max_distance', None)
     sort_by = request.args.get('sort_by', '')
 
-    doctors_query = Doctor.query
+    doctors_query = Doctor.query.filter(Doctor.available == True)
 
     if query:
         doctors_query = doctors_query.filter(
@@ -162,7 +187,6 @@ def search():
 
     if specialization:
         doctors_query = doctors_query.filter(Doctor.specialization == specialization)
-
     # Преобразование строки расстояния в число и фильтрация
     max_distance = None
     if max_distance_str:
@@ -206,13 +230,18 @@ def doctor_dashboard():
     logger.debug("Доступ к странице doctor_dashboard пользователем: %s", current_user.get_id())
     real_user = db.session.query(Doctor).get(current_user.get_id())
     if real_user:
-        appointments = Appointment.query.filter_by(doctor_id=real_user.id).all()
+        appointments = (db.session.query(Appointment, User)
+                    .join(User, Appointment.patient_id == User.id)
+                    .filter(Appointment.doctor_id == real_user.id)
+                    .all())
+
         appointments_data = [{
             'appointment_id': appointment.id,
-            'patient_name': User.query.get(appointment.patient_id).full_name,
+            'patient_name': patient.full_name,
+            'patient_phone': patient.phone_number,
             'date': appointment.date.strftime("%Y-%m-%d %H:%M"),
             'status': appointment.status
-        } for appointment in appointments]
+            } for appointment, patient in appointments]
         logger.debug("Заявки для врача с ID %s: %s", real_user.id, appointments_data)
         return render_template('doctor_dashboard.html', appointments=appointments_data)
     else:
@@ -263,6 +292,9 @@ def find_nearest_doctors():
 @login_required
 def call_doctor(doctor_id):
     doctor = Doctor.query.get_or_404(doctor_id)
+    if not doctor.available:
+        flash("Врач в данный момент недоступен", "error")
+        return redirect(url_for('doctor_profile', doctor_id=doctor_id))
     if request.method == 'POST':
         try:
             if 'date' not in request.form:
@@ -290,7 +322,8 @@ def edit_doctor_profile(doctor_id):
         doctor.location = request.form.get('location')
         lat = request.form.get('lat')
         lng = request.form.get('lng')
-        doctor.available = 'available' in request.form
+        
+        doctor.available = request.form.get('available') == 'on'
 
         doctor.lat = float(lat) if lat and lat != 'None' else None
         doctor.lng = float(lng) if lng and lng != 'None' else None
@@ -301,42 +334,8 @@ def edit_doctor_profile(doctor_id):
 
 
 
-def add_doctors_to_db():
-    doctors_list = [
-        {
-            "name": "Олег Олегович", 
-            "specialization": "Кризисный врач", 
-            "location": "Город 1", 
-            "about": "Описание 1",
-            "lat": 55.751244,
-            "lng": 37.618423
-        },
-        {
-            "name": "Анна Ивановна", 
-            "specialization": "Терапевт", 
-            "location": "Город 2", 
-            "about": "Описание 2",
-            "lat": 59.9342802,
-            "lng": 30.3350986
-        }
-    ]
-
-    for doc_info in doctors_list:
-        if not Doctor.query.filter_by(name=doc_info["name"]).first():
-            doctor = Doctor(
-                name=doc_info["name"], 
-                specialization=doc_info["specialization"], 
-                location=doc_info["location"],
-                about=doc_info["about"],
-                lat=doc_info["lat"],
-                lng=doc_info["lng"]
-            )
-            db.session.add(doctor)
-    db.session.commit()
-
 with app.app_context():
     db.create_all()
-    add_doctors_to_db()
 
 if __name__ == '__main__':
     app.run(debug=True)

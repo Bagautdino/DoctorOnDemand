@@ -8,13 +8,20 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
-            padding-top: 20px;
+            padding: 20px;
             text-align: center;
         }
         .dashboard-container {
             width: 80%;
-            margin: auto;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -33,32 +40,37 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        .edit-profile-link, .logout-link {
+        .button {
             display: inline-block;
+            padding: 10px 20px;
             margin: 10px;
-            padding: 10px 15px;
             background-color: #28a745;
             color: white;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #218838;
         }
         .logout-link {
             background-color: #dc3545;
         }
-        .edit-profile-link:hover, .logout-link:hover {
-            opacity: 0.9;
+        .logout-link:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <h2>Личный Кабинет Врача</h2>
-        <a href="{{ url_for('edit_doctor_profile', doctor_id=current_user.id) }}" class="edit-profile-link">Редактировать Профиль</a>
+        <a href="{{ url_for('edit_doctor_profile', doctor_id=current_user.id) }}" class="button">Редактировать Профиль</a>
         <table>
             <thead>
                 <tr>
                     <th>Номер Заявки</th>
                     <th>Имя Пациента</th>
+                    <th>Телефон Пациента</th>
                     <th>Дата</th>
                     <th>Статус</th>
                 </tr>
@@ -68,13 +80,14 @@
                 <tr>
                     <td>{{ appointment.appointment_id }}</td>
                     <td>{{ appointment.patient_name }}</td>
+                    <td>{{ appointment.patient_phone }}</td>
                     <td>{{ appointment.date }}</td>
                     <td>{{ appointment.status }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <a href="{{ url_for('logout') }}" class="logout-link">Выйти</a>
+        <a href="{{ url_for('logout') }}" class="button logout-link">Выйти</a>
     </div>
 </body>
 </html>

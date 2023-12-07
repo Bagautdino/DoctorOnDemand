@@ -16,30 +16,37 @@
             color: #007bff;
         }
         #map {
-            height: 300px; /* Уменьшаем высоту карты */
-            width: 100%; /* Задаем ширину, чтобы карта была на всю ширину контейнера */
+            height: 300px;
+            width: 100%;
             margin-top: 20px;
-            border-radius: 8px; /* Закругляем углы карты */
+            border-radius: 8px;
         }
         .profile-info {
             background: white;
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .button {
             display: inline-block;
             padding: 10px 20px;
-            margin: 10px;
-            background: #007bff;
+            margin: 10px 0;
+            background: #28a745;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+        .back-button {
+            background-color: #6c757d;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
         }
         /* Дополнительные стили */
     </style>
@@ -51,11 +58,9 @@
         <p>О враче: {{ doctor.about }}</p>
     </div>
 
-    <!-- Кнопки действий -->
     <a href="{{ url_for('call_doctor', doctor_id=doctor.id) }}" class="button">Вызвать Врача на Дом</a>
-    <a href="{{ url_for('search') }}" class="button">Назад к Поиску</a>
+    <a href="{{ url_for('search') }}" class="button back-button">Назад к Поиску</a>
 
-    <!-- Место для карты -->
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -63,7 +68,6 @@
         var map = L.map('map').setView([{{ doctor.lat }}, {{ doctor.lng }}], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // Добавляем маркеры для всех врачей
         {% for doc in all_doctors %}
             L.marker([{{ doc.lat }}, {{ doc.lng }}]).addTo(map)
                 .bindPopup('<a href="/doctor/{{ doc.id }}">{{ doc.name }}</a><br>{{ doc.specialization }}');
