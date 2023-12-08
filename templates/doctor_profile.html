@@ -1,36 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Профиль Врача</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        #map { height: 400px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #007bff;
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .profile-info {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
         .button {
             display: inline-block;
             padding: 10px 20px;
-            margin: 10px;
-            background: #007bff;
+            margin: 10px 0;
+            background: #28a745;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
         }
         .button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+        .back-button {
+            background-color: #6c757d;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
         }
         /* Дополнительные стили */
     </style>
 </head>
 <body>
-    <h2>{{ doctor.name }}</h2>
-    <p>Специализация: {{ doctor.specialization }}</p>
-    <p>О враче: {{ doctor.about }}</p>
+    <div class="profile-info">
+        <h2>{{ doctor.name }}</h2>
+        <p>Специализация: {{ doctor.specialization }}</p>
+        <p>О враче: {{ doctor.about }}</p>
+    </div>
 
-    <!-- Кнопка для вызова врача на дом -->
     <a href="{{ url_for('call_doctor', doctor_id=doctor.id) }}" class="button">Вызвать Врача на Дом</a>
-    <!-- Кнопка для возврата к поиску врачей -->
-    <a href="{{ url_for('search') }}" class="button">Назад к Поиску</a>
+    <a href="{{ url_for('search') }}" class="button back-button">Назад к Поиску</a>
 
-    <!-- Место для карты -->
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -38,7 +68,6 @@
         var map = L.map('map').setView([{{ doctor.lat }}, {{ doctor.lng }}], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // Добавляем маркеры для всех врачей
         {% for doc in all_doctors %}
             L.marker([{{ doc.lat }}, {{ doc.lng }}]).addTo(map)
                 .bindPopup('<a href="/doctor/{{ doc.id }}">{{ doc.name }}</a><br>{{ doc.specialization }}');

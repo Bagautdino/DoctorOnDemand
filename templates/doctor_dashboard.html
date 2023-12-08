@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
 <head>
     <title>Личный Кабинет Врача</title>
@@ -23,5 +24,97 @@
         {% endfor %}
     </table>
     <a href="{{ url_for('logout') }}">Выйти</a>
+=======
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный Кабинет Врача</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+        .logout-link {
+            background-color: #dc3545;
+        }
+        .logout-link:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Личный Кабинет Врача</h2>
+        <a href="{{ url_for('edit_doctor_profile', doctor_id=current_user.id) }}" class="button">Редактировать Профиль</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Номер Заявки</th>
+                    <th>Имя Пациента</th>
+                    <th>Телефон Пациента</th>
+                    <th>Дата</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.appointment_id }}</td>
+                    <td>{{ appointment.patient_name }}</td>
+                    <td>{{ appointment.patient_phone }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('logout') }}" class="button logout-link">Выйти</a>
+    </div>
+>>>>>>> origin/develop
 </body>
 </html>

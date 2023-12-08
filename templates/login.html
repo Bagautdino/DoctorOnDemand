@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
     <title>Вход</title>
     <style>
         body { 
+<<<<<<< HEAD
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
@@ -49,17 +51,86 @@
             text-align: center;
             border-radius: 4px; /* Optional: if you want rounded corners */
             margin-top: 10px; /* Space between the buttons */
+=======
+            font-family: Arial, sans-serif; 
+            background-color: #e9ecef; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        .container { 
+            width: 100%; 
+            max-width: 400px; 
+            padding: 20px; 
+            margin: 20px; 
+            background: #fff; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            text-align: center; 
+        }
+        h2 { 
+            color: #007bff; 
+            margin-bottom: 20px; 
+        }
+        input[type="text"], 
+        input[type="password"], 
+        input[type="submit"] { 
+            width: calc(100% - 40px); 
+            padding: 10px; 
+            margin-bottom: 15px; 
+            border: 1px solid #ced4da; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        input[type="submit"] { 
+            background-color: #007bff; 
+            color: white; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+        input[type="submit"]:hover { 
+            background-color: #0056b3; 
+        }
+        a { 
+            color: #007bff; 
+            text-decoration: none; 
+            display: inline-block; 
+            margin-top: 15px; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+        .error { 
+            color: #dc3545; 
+            margin-bottom: 15px; 
+>>>>>>> origin/develop
         }
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     <div class="login-container">
         <form action="/login" method="post">
+=======
+    <div class="container">
+        <h2>Вход</h2>
+        <form action="/login" method="post">
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+>>>>>>> origin/develop
             <input type="text" name="username" placeholder="Имя пользователя" required>
             <input type="password" name="password" placeholder="Пароль" required>
             <input type="submit" value="Войти">
         </form>
+<<<<<<< HEAD
         <a href="/register" class="register-btn">Регистрация</a>
+=======
+        <a href="/register">Регистрация</a>
+>>>>>>> origin/develop
     </div>
 </body>
 </html>

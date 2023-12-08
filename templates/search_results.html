@@ -4,21 +4,55 @@
     <title>Результаты поиска</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
-        body { font-family: Arial, sans-serif; }
-        form { margin: auto; width: 300px; padding: 1em; border: 1px solid #ccc; }
-        input { margin-bottom: 1em; width: 100%; }
-        input[type="submit"] { background: blue; color: white; padding: 0.7em; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .search-results { 
+            margin: 20px 0; 
+            padding: 15px; 
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .search-results h3 {
+            margin-top: 0;
+        }
+        .search-results p {
+            margin: 5px 0;
+        }
+        .map-button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .map-button:hover {
+            background-color: #0056b3;
+        }
+        #map { 
+            height: 400px; 
+            width: 100%; 
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
     {% for doctor in doctors %}
-        <div>
+        <div class="search-results">
             <h3>{{ doctor.name }}</h3>
             <p>Специализация: {{ doctor.specialization }}</p>
-            <button onclick="showLocation({{ doctor.lat }}, {{ doctor.lng }})">Показать на карте</button>
+            <button class="map-button" onclick="showLocation({{ doctor.lat }}, {{ doctor.lng }})">Показать на карте</button>
         </div>
     {% endfor %}
-    <div id="map" style="height: 400px; width: 100%;"></div>
+    <div id="map"></div>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         var map = L.map('map').setView([51.505, -0.09], 13);
