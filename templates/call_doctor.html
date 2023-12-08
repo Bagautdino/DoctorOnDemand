@@ -34,12 +34,6 @@
             background-color: #4cae4c;
         }
 
-<<<<<<< HEAD
-        .success-message {
-            display: none;
-            color: green;
-            margin-top: 20px;
-=======
         .alert {
             padding: 10px;
             margin-top: 20px;
@@ -57,14 +51,11 @@
             color: #a94442;
             background-color: #f2dede;
             border-color: #ebccd1;
->>>>>>> origin/develop
         }
     </style>
 </head>
 <body>
     <h2>Вызов Врача на Дом - {{ doctor.name }}</h2>
-<<<<<<< HEAD
-=======
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -74,20 +65,12 @@
         {% endif %}
     {% endwith %}
 
->>>>>>> origin/develop
     <form id="appointmentForm" action="{{ url_for('call_doctor', doctor_id=doctor.id) }}" method="post">
         <p>Выберите удобную дату и время для визита врача:</p>
         <input type="datetime-local" name="date" id="dateInput" min="" max="" required>
         <input type="submit" value="Вызвать врача">
     </form>
 
-<<<<<<< HEAD
-    <div class="success-message" id="successMessage">
-        Вы успешно записались!
-    </div>
-
-=======
->>>>>>> origin/develop
     <script>
         var today = new Date();
         var nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
@@ -103,19 +86,6 @@
 
         document.getElementById('dateInput').min = formatDate(today);
         document.getElementById('dateInput').max = formatDate(nextWeek);
-<<<<<<< HEAD
-
-        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-
-            document.getElementById('successMessage').style.display = 'block';
-
-            setTimeout(function() {
-                window.location.href = '/search';
-            }, 3000);
-        });
-=======
->>>>>>> origin/develop
     </script>
 </body>
 </html>

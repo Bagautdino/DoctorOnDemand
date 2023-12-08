@@ -5,53 +5,6 @@
     <title>Вход</title>
     <style>
         body { 
-<<<<<<< HEAD
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .login-container {
-            width: 300px;
-            background: #fff;
-            padding: 1em;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        form { 
-            margin-bottom: 1em;
-        }
-        input[type="text"],
-        input[type="password"] { 
-            width: calc(100% - 20px); /* Adjust input width considering padding */
-            padding: 10px;
-            margin-bottom: 1em; 
-            border: 1px solid #ddd;
-        }
-        input[type="submit"],
-        .register-btn { 
-            width: 100%; /* Full width */
-            padding: 10px; /* Same padding */
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            display: block; /* Make it block to fill the container */
-        }
-        input[type="submit"] { 
-            background: blue; 
-            color: white;
-        }
-        .register-btn { 
-            background: green; 
-            color: white; 
-            text-align: center;
-            border-radius: 4px; /* Optional: if you want rounded corners */
-            margin-top: 10px; /* Space between the buttons */
-=======
             font-family: Arial, sans-serif; 
             background-color: #e9ecef; 
             margin: 0; 
@@ -106,31 +59,21 @@
         .error { 
             color: #dc3545; 
             margin-bottom: 15px; 
->>>>>>> origin/develop
         }
     </style>
 </head>
 <body>
-<<<<<<< HEAD
-    <div class="login-container">
-        <form action="/login" method="post">
-=======
     <div class="container">
         <h2>Вход</h2>
         <form action="/login" method="post">
             {% if error %}
                 <div class="error">{{ error }}</div>
             {% endif %}
->>>>>>> origin/develop
             <input type="text" name="username" placeholder="Имя пользователя" required>
             <input type="password" name="password" placeholder="Пароль" required>
             <input type="submit" value="Войти">
         </form>
-<<<<<<< HEAD
-        <a href="/register" class="register-btn">Регистрация</a>
-=======
         <a href="/register">Регистрация</a>
->>>>>>> origin/develop
     </div>
 </body>
 </html>

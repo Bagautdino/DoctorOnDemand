@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # Конфигурация приложения
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
-app.config['SECRET_KEY'] = 'your-secret-key'
+app.config['SECRET_KEY'] = 'SECRET'
 
 # Инициализация расширений
 db = SQLAlchemy(app)
@@ -67,19 +67,12 @@ class Review(db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-<<<<<<< HEAD
-    user = User.query.get(int(user_id))
-    if user:
-        return user
-    return Doctor.query.get(int(user_id))
-=======
     # Используем контекст сессии для запроса пользователя
     with db.session.no_autoflush:
         user = db.session.get(User, int(user_id))
         if user:
             return user
         return db.session.get(Doctor, int(user_id))
->>>>>>> origin/develop
 
 
 @app.route('/')
@@ -167,38 +160,6 @@ def doctor_login():
     return render_template('doctor_login.html')
 
 
-@app.route('/doctor_register', methods=['GET', 'POST'])
-def doctor_register():
-    if request.method == 'POST':
-        username = request.form['username']
-        hashed_password = generate_password_hash(request.form['password'], method='pbkdf2:sha256')
-        new_doctor = Doctor(username=username, password=hashed_password)
-        
-        # Проверка, существует ли уже такой пользователь
-        if Doctor.query.filter_by(username=username).first():
-            return 'Пользователь с таким именем уже существует'
-
-        db.session.add(new_doctor)
-        db.session.commit()
-        return redirect(url_for('doctor_login'))
-
-    return render_template('doctor_register.html')
-
-@app.route('/doctor_login', methods=['GET', 'POST'])
-def doctor_login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        doctor = Doctor.query.filter_by(username=username).first()
-        if doctor and check_password_hash(doctor.password, password):
-            login_user(doctor)
-            return redirect(url_for('doctor_dashboard'))
-        else:
-            return 'Неверное имя пользователя или пароль'
-
-    return render_template('doctor_login.html')
-
-
 @app.route('/logout')
 @login_required
 def logout():
@@ -217,11 +178,7 @@ def search():
     max_distance_str = request.args.get('max_distance', None)
     sort_by = request.args.get('sort_by', '')
 
-<<<<<<< HEAD
-    doctors_query = Doctor.query
-=======
     doctors_query = Doctor.query.filter(Doctor.available == True)
->>>>>>> origin/develop
 
     if query:
         doctors_query = doctors_query.filter(
@@ -230,10 +187,6 @@ def search():
 
     if specialization:
         doctors_query = doctors_query.filter(Doctor.specialization == specialization)
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
     # Преобразование строки расстояния в число и фильтрация
     max_distance = None
     if max_distance_str:
@@ -274,30 +227,6 @@ def search():
 @app.route('/doctor_dashboard')
 @login_required
 def doctor_dashboard():
-<<<<<<< HEAD
-    if not isinstance(current_user, Doctor):
-        # Перенаправление не-врачей на главную страницу
-        return redirect(url_for('index'))
-
-    # Получаем заявки, адресованные текущему врачу
-    appointments = Appointment.query.filter_by(doctor_id=current_user.id).all()
-
-    # Получаем отзывы, оставленные для врача
-    reviews = Review.query.filter_by(doctor_id=current_user.id).all()
-
-    # Формируем данные для отображения в шаблоне
-    appointments_data = []
-    for appointment in appointments:
-        patient = User.query.get(appointment.patient_id)
-        appointments_data.append({
-            'appointment_id': appointment.id,
-            'patient_name': patient.full_name,
-            'date': appointment.date.strftime("%Y-%m-%d %H:%M"),
-            'status': appointment.status
-        })
-
-    return render_template('doctor_dashboard.html', appointments=appointments_data, reviews=reviews)
-=======
     logger.debug("Доступ к странице doctor_dashboard пользователем: %s", current_user.get_id())
     real_user = db.session.query(Doctor).get(current_user.get_id())
     if real_user:
@@ -318,7 +247,6 @@ def doctor_dashboard():
     else:
         logger.warning("Врач с ID %s не найден", current_user.get_id())
         return redirect(url_for('index'))
->>>>>>> origin/develop
 
 
 @app.route('/doctor/<int:doctor_id>', methods=['GET', 'POST'])
@@ -394,12 +322,8 @@ def edit_doctor_profile(doctor_id):
         doctor.location = request.form.get('location')
         lat = request.form.get('lat')
         lng = request.form.get('lng')
-<<<<<<< HEAD
-        doctor.available = 'available' in request.form
-=======
         
         doctor.available = request.form.get('available') == 'on'
->>>>>>> origin/develop
 
         doctor.lat = float(lat) if lat and lat != 'None' else None
         doctor.lng = float(lng) if lng and lng != 'None' else None
@@ -407,10 +331,6 @@ def edit_doctor_profile(doctor_id):
         return redirect(url_for('doctor_dashboard'))
 
     return render_template('edit_doctor_profile.html', doctor=doctor)
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/develop
 
 
 
@@ -418,4 +338,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

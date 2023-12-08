@@ -16,15 +16,6 @@
             align-items: center;
             margin-bottom: 20px;
         }
-<<<<<<< HEAD
-        input[type="text"],
-        input[type="number"],
-        select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-right: 8px;
-=======
         .logout-button {
             padding: 10px 20px;
             background-color: #dc3545;
@@ -58,7 +49,6 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             margin-bottom: 10px;
->>>>>>> origin/develop
         }
         input[type="submit"] {
             padding: 10px 20px;
@@ -99,21 +89,6 @@
     </header>
 
     <form action="/search" method="get">
-<<<<<<< HEAD
-        <input type="text" name="query" placeholder="Имя, фамилия, о себе...">
-        <select name="specialization">
-            <option value="">Все специализации</option>
-            <!-- Динамические опции специализаций -->
-        </select>
-        <input type="number" name="max_distance" placeholder="Макс. расстояние (км)">
-        <select name="sort_by">
-            <option value="">Сортировать по</option>
-            <option value="distance_asc">Расстоянию (по возрастанию)</option>
-            <option value="distance_desc">Расстоянию (по убыванию)</option>
-            <option value="name_asc">Имени (А-Я)</option>
-            <option value="name_desc">Имени (Я-А)</option>
-        </select>
-=======
         <div class="form-group">
             <label for="query">Имя, фамилия, о себе:</label>
             <input type="text" id="query" name="query" placeholder="Имя, фамилия, о себе...">
@@ -139,41 +114,10 @@
                 <option value="name_desc">Имени (Я-А)</option>
             </select>
         </div>
->>>>>>> origin/develop
         <input type="submit" value="Поиск">
     </form>
 
     <h2>Результаты Поиска</h2>
-<<<<<<< HEAD
-{% for doctor in doctors %}
-    <div class="doctor-card">
-        <h3>{{ doctor.name }}</h3>
-        <p>Специализация: {{ doctor.specialization }}</p>
-        {% if doctor.distance %}
-            <p>Расстояние до врача: {{ doctor.distance }} км</p>
-        {% endif %}
-        <a href="{{ url_for('doctor_profile', doctor_id=doctor.id) }}">Посмотреть профиль</a>
-    </div>
-{% endfor %}
-
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            // Здесь код для проверки авторизации пользователя
-            // Пример: если пользователь не авторизован, перенаправляем на страницу входа
-            if (!isUserLoggedIn()) {
-                event.preventDefault();
-                window.location.href = '/login';
-            }
-        });
-
-        function isUserLoggedIn() {
-            // Здесь ваша логика для определения, авторизован ли пользователь
-            // Это может быть проверка cookie, localStorage и т.д.
-            return true; // Измените это на реальную логику
-        }
-    </script>
-=======
     {% for doctor in doctors %}
         <div class="doctor-card">
             <h3>{{ doctor.name }}</h3>
@@ -184,6 +128,5 @@
             <a href="{{ url_for('doctor_profile', doctor_id=doctor.id) }}">Посмотреть профиль</a>
         </div>
     {% endfor %}
->>>>>>> origin/develop
 </body>
 </html>
