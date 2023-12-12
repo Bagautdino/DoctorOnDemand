@@ -29,3 +29,16 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ayvazbudapeshtov/doctorondemand:latest
+   
+    - name: Run container
+      run: docker run --name doctorondemand -d -p 5000:5000 ayvazbudapeshtov/doctorondemand:latest
+
+    - name: Check running container
+      run: docker ps | grep doctorondemand
+
+    - name: Run application tests
+      run: docker exec doctorondemand pytest
+
+    # Очистка
+    - name: Stop and remove container
+      run: docker rm -f doctorondemand
