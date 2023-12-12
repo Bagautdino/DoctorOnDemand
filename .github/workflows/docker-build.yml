@@ -2,30 +2,30 @@ name: Docker Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ]  # Запускать рабочий процесс при push в ветку master
   pull_request:
-    branches: [ master ]
+    branches: [ master ]  # Запускать рабочий процесс при pull request в ветку master
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Используйте последнюю версию Ubuntu
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3  # Проверка вашего репозитория
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v1  # Настройка Docker Buildx
 
     - name: Login to DockerHub
-      uses: docker/login-action@v1
+      uses: docker/login-action@v1  # Вход в DockerHub
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}  # Использование секрета для имени пользователя
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}  # Использование секрета для пароля
 
     - name: Build and push Docker image
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v2  # Сборка и публикация Docker образа
       with:
         context: .
         file: ./Dockerfile
         push: true
-        tags: yourusername/yourappname:latest
+        tags: yourusername/yourappname:latest  # Замените на ваше имя пользователя и имя приложения
